@@ -11,6 +11,17 @@ const Home = () => {
       >
         path vatiable 전송
       </Link>
+      <Link
+        to={{
+          pathname: "/param",
+          search: "q=react&page=10",
+        }}
+      >
+        query string 전송
+      </Link>
+      {/*간단 버전*/}
+      <Link to="/param/10">path parameter</Link>
+      <Link to="/param?q=안녕&page=20">query string</Link>
     </>
   );
 };
