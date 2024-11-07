@@ -29,10 +29,10 @@ get http://localhost:8000/nations/1
 
 ###
 post http://localhost:8000/nations/save
-Content-Type:  application/json; charset=UTF-8
+Content-Type: application/json; charset=UTF-8
 
 {
     "name": "미국",
-    "capital": "워싱텅DC",
+    "capital": "워싱턴DC",
     "population": 331900000
 }

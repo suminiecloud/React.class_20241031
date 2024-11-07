@@ -89,7 +89,7 @@ app.post("/nations/save", (req) => {
   const { name, capital, population } = req.body;
   console.log(`name: ${name}, capital: ${capital}, population: ${population}`);
   const sql =
-    "inset into nations_table(name, capital, population) values(?,?,?)";
+    "insert into nations_table(name, capital, population) values(?,?,?)";
   db.query(sql, [name, capital, population], (err, results, fields) => {
     console.log("err", err);
   });
