@@ -1,5 +1,6 @@
 import express from "express";
 import mysql from "mysql";
+import mysql2 from "mysql2";
 
 const app = express();
 app.use(express.json()); //json data를 주고받기 위한 설정
@@ -9,8 +10,8 @@ app.listen(8000, () => {
   console.log("서버시작!");
 });
 
-const db = mysql.createConnection({
-  host: "1237.0.0.1",
+const db = mysql2.createConnection({
+  host: "127.0.0.1",
   user: "user_ex",
   password: "1234",
   port: "3306",
@@ -54,4 +55,42 @@ app.post("/post-req", (req) => {
   console.log(req.body.name);
   const { name, age } = req.body;
   console.log(`name: ${name}, age: ${age}`);
+});
+//목록 조회
+app.get("/nations/list", (req, res) => {
+  const sql = "select *from nations_table";
+  db.query(sql, (err, results, fields) => {
+    console.log("err", err);
+    console.log("results", results);
+    console.log("fields", fields);
+    res.json(results);
+  });
+});
+
+//상세 조회
+app.get("/nations/:id", (req, res) => {
+  console.log(req.params.id);
+  const id = req.params.id;
+  const sql = "select * from nations_table where id=?";
+  db.query(sql, [id], (err, results, fields) => {
+    console.log("err", err);
+    console.log("results", results);
+    if (results.length == 0) {
+      //조회결과 없음
+      res.status(404).send("요청하신 데이터를 찾을 수 없습니다.");
+    } else {
+      res.status(200).json(results);
+    }
+  });
+});
+
+//저장기능
+app.post("/nations/save", (req) => {
+  const { name, capital, population } = req.body;
+  console.log(`name: ${name}, capital: ${capital}, population: ${population}`);
+  const sql =
+    "inset into nations_table(name, capital, population) values(?,?,?)";
+  db.query(sql, [name, capital, population], (err, results, fields) => {
+    console.log("err", err);
+  });
 });
