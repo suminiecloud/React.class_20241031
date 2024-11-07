@@ -5,7 +5,6 @@ import Info from "./Info";
 import Header from "./Header";
 import Param1 from "./Param1";
 import Param2 from "./Param2";
-
 function App() {
   return (
     <>
