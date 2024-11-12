@@ -1,56 +1,69 @@
 import { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Save = () => {
+  const navigate = useNavigate();
+
   const [member, setMember] = useState({
-    name: "",
-    password: "",
-    email: "",
-    phone: "",
+    memberEmail: "",
+    memberPassword: "",
+    memberName: "",
+    memberMobile: "",
   });
 
-  const joinUpdate = (e) => {
+  const inputUpdate = (e) => {
     const { name, value } = e.target;
     setMember({
       ...member,
       [name]: value,
     });
+  };
+
+  const memberSave = async (e) => {
+    e.preventDefault();
     console.log(member);
+    let res = await axios.post("http://localhost:8000/member/save", {
+      member: member,
+    });
+    console.log("res", res);
+    navigate("/");
   };
 
   return (
     <>
       <h2>Save.jsx</h2>
-      <form>
-        이름:
+      <form onSubmit={memberSave}>
+        이메일:
         <input
           type="text"
-          name="name"
-          value={member.name}
-          onChange={joinUpdate}
+          name="memberEmail"
+          value={member.memberEmail}
+          onChange={inputUpdate}
         />
         <br />
         비밀번호:
         <input
           type="text"
-          password="password"
-          value={member.password}
-          onChange={joinUpdate}
+          name="memberPassword"
+          value={member.memberPassword}
+          onChange={inputUpdate}
         />
         <br />
-        이메일:
+        이름:
         <input
           type="text"
-          email="email"
-          value={member.email}
-          onChange={joinUpdate}
+          name="memberName"
+          value={member.memberName}
+          onChange={inputUpdate}
         />
         <br />
         전화번호:
         <input
           type="text"
-          phone="phone"
-          value={member.phone}
-          onChange={joinUpdate}
+          name="memberMobile"
+          value={member.memberMobile}
+          onChange={inputUpdate}
         />
         <br />
         <input type="submit" value={"회원가입"} />
