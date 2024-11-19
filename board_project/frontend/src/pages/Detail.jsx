@@ -8,6 +8,7 @@ export default function Detail() {
   const [board, setBoard] = useState("");
   const [showPass, setShowPass] = useState(false);
   const [password, setPassword] = useState("");
+  const [showDeletePass, setShowDeletePass] = useState(false);
   useEffect(() => {
     const board_db = axios
       .get(`http://localhost:8000/board/${id}`)
@@ -21,6 +22,10 @@ export default function Detail() {
     setShowPass(true);
   };
 
+  const deleteReq = () => {
+    setShowDeletePass(true);
+  };
+
   const passInput = (e) => {
     const { name, value } = e.target;
     setPassword(value);
@@ -30,6 +35,18 @@ export default function Detail() {
   const passCheck = () => {
     if (password == board.boardPass) {
       navigate(`/update/${board.id}`);
+    } else {
+      alert("비밀번호가 일치하지 않습니다!");
+    }
+  };
+
+  const deletePassCheck = () => {
+    if (password == board.boardPass) {
+      let res = axios
+        .delete("http://localhost:8000/board/${id}")
+        .then((res) => {
+          navigate("/list");
+        });
     } else {
       alert("비밀번호가 일치하지 않습니다!");
     }
@@ -71,6 +88,13 @@ export default function Detail() {
         <div>
           <input type="text" value={password} onChange={passInput} />
           <button onClick={passCheck}>확인</button>
+        </div>
+      )}
+      <button onClick={deleteReq}>삭제</button>
+      {showDeletePass && (
+        <div>
+          <input type="text" value={password} onChange={passInput} />
+          <button onClick={deletePassCheck}>확인</button>
         </div>
       )}
     </>
