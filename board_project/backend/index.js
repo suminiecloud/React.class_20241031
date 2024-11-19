@@ -59,3 +59,18 @@ app.get("/board/:id", (req, res) => {
     res.status(200).json(results);
   });
 });
+
+app.get("/board/update/:id", (req, res) => {
+  const { id } = req.params;
+  const sql = "select * from board_table where id=?";
+  db.query(sql, [id], (err, results, fields) => {
+    res.status(200).json(results);
+  });
+});
+
+app.put("/board/update/:id", (res, res) => {
+  const sql = "update board_table set boardTitle=?, boardContents=? where id=?";
+  db.query(sql, [boardTitle, boardContents, id], (err, results, fields) => {
+    res.status(200).send("수정완료");
+  });
+});
