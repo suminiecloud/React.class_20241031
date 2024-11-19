@@ -32,7 +32,6 @@ const List = () => {
               <td>{member.member_mobile}</td>
             </tr>
           ))}
-          ;
         </tbody>
       </table>
     </>
